@@ -1,3 +1,37 @@
+-- -- 1.2 Escreva um cursor que exibe todos os nomes dos youtubers em ordem reversa. Para tal
+-- -- - O SELECT deverá ordenar em ordem não reversa O Cursor deverá ser movido para a última tupla Os dados deverão ser exibidos de baixo para cima
+-- DO $$
+-- DECLARE
+-- --1. declaração do cursor NAO VINCULADO
+-- cur_reordena REFCURSOR;
+-- tupla RECORD;
+-- BEGIN
+-- -- scroll para poder voltar ao início
+-- --2.abertura do cursor especifica que ele pode ir e voltar 
+-- OPEN cur_reordena SCROLL FOR
+-- SELECT youtuber FROM tb_top_youtubers;
+
+-- LOOP
+-- --3 Recuperação dos dados de interesse busca as linha e coloca elas na tupla
+-- FETCH cur_reordena INTO tupla;
+-- EXIT WHEN NOT FOUND;
+
+-- -- loop para exibir item a item, de baixo para cima
+
+-- --3 Recuperação dos dados de interesse busca as linha de tras do cursor e coloca na tupla
+-- FETCH BACKWARD FROM cur_reordena INTO tupla;
+-- EXIT WHEN NOT FOUND;
+
+-- RAISE NOTICE '%', tupla;
+-- END LOOP;
+
+-- --4 fechamento
+-- CLOSE cur_reordena;
+-- END;
+-- $$
+
+
+
 -- --1.1 Escreva um cursor que exiba as variáveis rank e youtuber de toda tupla que tiver video_count pelo menos igual a 1000 e cuja category seja igual a Sports ou Music.
 -- DO $$
 -- DECLARE 
