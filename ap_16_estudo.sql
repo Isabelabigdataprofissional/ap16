@@ -1,30 +1,30 @@
--- 1.2 Escreva um cursor que exibe todos os nomes dos youtubers em ordem reversa abd -> zyw. Para tal
--- - O SELECT deverá ordenar em ordem não reversa abcO Cursor deverá ser movido para a última tupla z Os dados deverão ser exibidos de baixo para cima zyw
-DO $$
-DECLARE
---1. declaração do cursor NAO VINCULADO
-cur_reordena REFCURSOR;
-tupla RECORD;
+-- -- 1.2 Escreva um cursor que exibe todos os nomes dos youtubers em ordem reversa abd -> zyw. Para tal
+-- -- - O SELECT deverá ordenar em ordem não reversa abcO Cursor deverá ser movido para a última tupla z Os dados deverão ser exibidos de baixo para cima zyw
+-- DO $$
+-- DECLARE
+-- --1. declaração do cursor NAO VINCULADO
+-- cur_reordena REFCURSOR;
+-- tupla RECORD;
 
-BEGIN
---2.abertura do cursor especifica que ele pode ir e voltar  e tbm vincula o cursor a youtuber
-OPEN cur_reordena SCROLL FOR
-SELECT youtuber FROM tb_top_youtubers;
+-- BEGIN
+-- --2.abertura do cursor especifica que ele pode ir e voltar  e tbm vincula o cursor a youtuber
+-- OPEN cur_reordena SCROLL FOR
+-- SELECT youtuber FROM tb_top_youtubers;
 
-LOOP
-    FETCH cur_reordena INTO tupla;
-    EXIT WHEN NOT FOUND;
-END LOOP;
+-- LOOP
+--     FETCH cur_reordena INTO tupla;
+--     EXIT WHEN NOT FOUND;
+-- END LOOP;
 
-LOOP
-    FETCH BACKWARD FROM cur_reordena INTO tupla;
-    EXIT WHEN NOT FOUND;
-    RAISE NOTICE '%', tupla;
-END LOOP;
+-- LOOP
+--     FETCH BACKWARD FROM cur_reordena INTO tupla;
+--     EXIT WHEN NOT FOUND;
+--     RAISE NOTICE '%', tupla;
+-- END LOOP;
 
-CLOSE cur_reordena;
-END;
-$$
+-- CLOSE cur_reordena;
+-- END;
+-- $$
 
 -- --entendendo SCROLL
 -- DO $$
