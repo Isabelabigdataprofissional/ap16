@@ -1,35 +1,60 @@
--- -- 1.2 Escreva um cursor que exibe todos os nomes dos youtubers em ordem reversa. Para tal
--- -- - O SELECT deverá ordenar em ordem não reversa O Cursor deverá ser movido para a última tupla Os dados deverão ser exibidos de baixo para cima
+-- 1.2 Escreva um cursor que exibe todos os nomes dos youtubers em ordem reversa abd -> zyw. Para tal
+-- - O SELECT deverá ordenar em ordem não reversa abcO Cursor deverá ser movido para a última tupla z Os dados deverão ser exibidos de baixo para cima zyw
+DO $$
+DECLARE
+--1. declaração do cursor NAO VINCULADO
+cur_reordena REFCURSOR;
+tupla RECORD;
+
+BEGIN
+--2.abertura do cursor especifica que ele pode ir e voltar  e tbm vincula o cursor a youtuber
+OPEN cur_reordena SCROLL FOR
+SELECT youtuber FROM tb_top_youtubers;
+
+LOOP
+    FETCH cur_reordena INTO tupla;
+    EXIT WHEN NOT FOUND;
+END LOOP;
+
+LOOP
+    FETCH BACKWARD FROM cur_reordena INTO tupla;
+    EXIT WHEN NOT FOUND;
+    RAISE NOTICE '%', tupla;
+END LOOP;
+
+CLOSE cur_reordena;
+END;
+$$
+
+-- --entendendo SCROLL
 -- DO $$
 -- DECLARE
--- --1. declaração do cursor NAO VINCULADO
--- cur_reordena REFCURSOR;
--- tupla RECORD;
+--     cur_exemplo REFCURSOR;
+--     linha_primeira RECORD;
+--     proxima_linha RECORD;
+--     linha_anterior RECORD;
+--     linha_ultima RECORD;
+--     linha_especifica_indo RECORD;
+--     linha_especifica_voltando1 RECORD;
+--     linha_especifica_voltando2 RECORD;
+--     linha_BACKWARD RECORD;
 -- BEGIN
--- -- scroll para poder voltar ao início
--- --2.abertura do cursor especifica que ele pode ir e voltar 
--- OPEN cur_reordena SCROLL FOR
--- SELECT youtuber FROM tb_top_youtubers;
+--     OPEN cur_exemplo SCROLL FOR
+--         SELECT youtuber FROM tb_top_youtubers;
 
--- LOOP
--- --3 Recuperação dos dados de interesse busca as linha e coloca elas na tupla
--- FETCH cur_reordena INTO tupla;
--- EXIT WHEN NOT FOUND;
-
--- -- loop para exibir item a item, de baixo para cima
-
--- --3 Recuperação dos dados de interesse busca as linha de tras do cursor e coloca na tupla
--- FETCH BACKWARD FROM cur_reordena INTO tupla;
--- EXIT WHEN NOT FOUND;
-
--- RAISE NOTICE '%', tupla;
--- END LOOP;
-
--- --4 fechamento
--- CLOSE cur_reordena;
--- END;
+--     FETCH FIRST       FROM cur_exemplo INTO linha_primeira;  -- Primeira linha
+--     FETCH NEXT        FROM cur_exemplo INTO proxima_linha;   -- Próxima linha
+--     FETCH PRIOR       FROM cur_exemplo INTO linha_anterior;  -- Linha anterior
+--     FETCH LAST        FROM cur_exemplo INTO linha_ultima;   -- Última linha
+--     FETCH RELATIVE -1 FROM cur_exemplo INTO linha_especifica_voltando1; -- Volta uma linha a partir do ultimo no caso a penultima use esse so para posições especificas  IMMUTABLE
+--     FETCH ABSOLUTE 4  FROM cur_exemplo INTO linha_especifica_indo; -- Vai direto pra linha 3
+--     FETCH RELATIVE -1 FROM cur_exemplo INTO linha_especifica_voltando2; -- volta uma linha apartir do ultimo no caso a linha 3
+--     FETCH BACKWARD    FROM cur_exemplo INTO linha_BACKWARD; --voltou uma use esse nos loop
+    
+--     CLOSE cur_exemplo;
+-- 	raise notice 'Primeira linha: %    Proxima linha: %    Linha anterior: %   Última linha: %    Volta 1 linha (penultima): %    Linha 4: %     Volta 1 linha (linha3): %      Linhya BACKWARD: %', linha_primeira, proxima_linha, linha_anterior, linha_ultima, linha_especifica_voltando1, linha_especifica_indo, linha_especifica_voltando2, linha_BACKWARD ;
+-- END; 
 -- $$
-
 
 
 -- --1.1 Escreva um cursor que exiba as variáveis rank e youtuber de toda tupla que tiver video_count pelo menos igual a 1000 e cuja category seja igual a Sports ou Music.
